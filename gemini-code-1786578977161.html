@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIG-BUS Travel — Подорожуйте з комфортом</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-main: #0d0f12;
+            --bg-card: #16191e;
+            --bg-light: #20242c;
+            --accent-red: #e50914;
+            --accent-red-hover: #b80710;
+            --text-white: #ffffff;
+            --text-gray: #9ba1a6;
+            --status-free: #2e7d32;
+            --status-selected: #fbc02d;
+            --status-booked: #d32f2f;
+            --status-disabled: #424242;
+            --radius-main: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* --- Header --- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(13, 15, 18, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 1000;
+            padding: 15px 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .logo i {
+            color: var(--accent-red);
+            font-size: 26px;
+        }
+
+        .logo span {
+            color: var(--accent-red);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-link {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-gray);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--text-white);
+        }
+
+        .btn {
+            background-color: var(--accent-red);
+            color: var(--text-white);
+            padding: 12px 24px;
+            border-radius: var(--radius-main);
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-red-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(229, 9, 20, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--accent-red);
+        }
+
+        .btn-outline:hover {
+            background: var(--accent-red);
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            position: relative;
+            min-height: 90vh;
+            padding-top: 140px;
+            padding-bottom: 60px;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(180deg, rgba(13, 15, 18, 0.6) 0%, var(--bg-main) 100%), 
+                        url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=1920') center/cover no-repeat;
+        }
+
+        .hero-content {
+            max-width: 700px;
+            margin-bottom: 40px;
+        }
+
+        .hero-title {
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .hero-title span {
+            color: var(--accent-red);
+            display: block;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: var(--text-gray);
+            margin-bottom: 30px;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        /* --- Search Card --- */
+        .search-card {
+            background-color: var(--bg-card);
+            border-radius: var(--radius-main);
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin-top: 20px;
+        }
+
+        .search-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-title i {
+            color: var(--accent-red);
+        }
+
+        .search-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-gray);
+            text-transform: uppercase;
+        }
+
+        .form-control {
+            background: var(--bg-light);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-white);
+            padding: 12px;
+            border-radius: 8px;
+            outline: none;
+            transition: var(--transition);
+            width: 100%;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-red);
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .checkbox-label input {
+            accent-color: var(--accent-red);
+            width: 16px;
+            height: 16px;
+        }
+
+        /* --- Main Sections --- */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-gray);
+            margin-bottom: 50px;
+            font-size: 16px;
+        }
+
+        /* --- Route Cards --- */
+        .routes-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .route-card {
+            background-color: var(--bg-card);
+            border-radius: var(--radius-main);
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .route-card:hover {
+            border-color: rgba(229, 9, 20, 0.4);
+            transform: translateY(-3px);
+        }
+
+        .route-info {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .route-cities {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .route-time {
+            color: var(--text-gray);
+            font-size: 14px;
+        }
+
+        .route-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .badge-green { background: rgba(46, 125, 50, 0.2); color: #81c784; }
+        .badge-orange { background: rgba(245, 124, 0, 0.2); color: #ffb74d; }
+        .badge-red { background: rgba(211, 47, 47, 0.2); color: #e57373; }
+
+        .route-price {
+            text-align: right;
+        }
+
+        .price-val {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--accent-red);
+        }
+
+        /* --- Bus Seat Picker Modal/Section --- */
+        .bus-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            overflow-y: auto;
+            padding: 40px 10px;
+        }
+
+        .bus-modal-content {
+            background-color: var(--bg-card);
+            max-width: 900px;
+            margin: 0 auto;
+            border-radius: var(--radius-main);
+            padding: 30px;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-gray);
+        }
+
+        .bus-layout-container {
+            display: flex;
+            gap: 30px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .bus-schema {
+            background: var(--bg-main);
+            padding: 30px 20px;
+            border-radius: 20px;
+            border: 2px solid var(--bg-light);
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+
+        .driver-zone {
+            display: flex;
+            justify-content: flex-end;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            border-bottom: 2px stroke var(--bg-light);
+            color: var(--text-gray);
+        }
+
+        .seats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            max-width: 280px;
+            margin: 0 auto;
+        }
+
+        /* Aisle gap */
+        .seats-grid div:nth-child(4n-2) {
+            margin-right: 20px;
+        }
+
+        .seat {
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            user-select: none;
+        }
+
+        .seat.free { background-color: var(--status-free); color: #fff; }
+        .seat.selected { background-color: var(--status-selected); color: #000; }
+        .seat.booked { background-color: var(--status-booked); color: #fff; cursor: not-allowed; }
+        .seat.disabled { background-color: var(--status-disabled); color: #888; cursor: not-allowed; }
+
+        .legend {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
+            flex-wrap: wrap;
+            font-size: 12px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .legend-box {
+            width: 15px;
+            height: 15px;
+            border-radius: 4px;
+        }
+
+        .booking-details {
+            flex: 1;
+            min-width: 280px;
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: var(--radius-main);
+        }
+
+        .passenger-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        /* --- Parcels Section --- */
+        .parcel-card {
+            background-color: var(--bg-card);
+            border-radius: var(--radius-main);
+            padding: 40px;
+            max-width: 700px;
+            margin: 0 auto;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: #08090b;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 60px 0 20px 0;
+            color: var(--text-gray);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h4 {
+            color: var(--text-white);
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .social-link-tiktok {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.05);
+            padding: 10px 18px;
+            border-radius: 30px;
+            color: var(--text-white);
+            font-weight: 600;
+            margin-top: 15px;
+            transition: var(--transition);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .social-link-tiktok:hover {
+            background: #000;
+            border-color: var(--accent-red);
+            color: var(--accent-red);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 13px;
+        }
+
+        /* --- Admin Floating Panel Trigger --- */
+        .admin-btn-float {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: #20242c;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 30px;
+            font-size: 12px;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.2);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Mobile Adaptability */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--bg-card);
+                flex-direction: column;
+                padding: 20px;
+                gap: 15px;
+            }
+
+            .nav-menu.active { display: flex; }
+            .hamburger { display: block; }
+            .hero-title { font-size: 32px; }
+            .route-card { flex-direction: column; align-items: flex-start; }
+            .route-price { text-align: left; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container nav-wrapper">
+            <a href="#" class="logo">
+                <i class="fa-solid fa-bus"></i>
+                BIG-BUS <span>Travel</span>
+            </a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" class="nav-link active">Головна</a></li>
+                <li><a href="#routes" class="nav-link">Рейси</a></li>
+                <li><a href="#destinations" class="nav-link">Напрямки</a></li>
+                <li><a href="#parcels" class="nav-link">Передачі</a></li>
+                <li><a href="#about" class="nav-link">Про нас</a></li>
+                <li><a href="#contacts" class="nav-link">Контакти</a></li>
+            </ul>
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <a href="#search-section" class="btn" style="display: none; @media(min-width:480px){display:inline-flex}">
+                    <i class="fa-solid fa-ticket"></i> Квиток
+                </a>
+                <div class="hamburger" id="hamburger"><i class="fa-solid fa-bars"></i></div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">ПОДОРОЖУЙТЕ <span>З КОМФОРТОМ</span> BIG-BUS TRAVEL</h1>
+                <p class="hero-subtitle">Коломия — Європа. Ваш надійний та перевірений партнер у щоденних міжнародних подорожах.</p>
+                <div class="hero-btns">
+                    <a href="#search-section" class="btn"><i class="fa-solid fa-magnifying-glass"></i> Знайти рейс</a>
+                    <a href="#parcels" class="btn btn-outline"><i class="fa-solid fa-box"></i> Відправити передачу</a>
+                </div>
+            </div>
+
+            <div class="search-card" id="search-section">
+                <div class="search-title">
+                    <i class="fa-solid fa-bus"></i> ЗНАЙДІТЬ СВІЙ РЕЙС
+                </div>
+                <form id="searchForm">
+                    <div class="search-grid">
+                        <div class="form-group">
+                            <label>Звідки</label>
+                            <select class="form-control" id="fromCity" required>
+                                <option value="Коломия">Коломия</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Куди</label>
+                            <select class="form-control" id="toCity" required>
+                                <option value="всі">Усі напрямки</option>
+                                <option value="Польща">Польща</option>
+                                <option value="Німеччина">Німеччина</option>
+                                <option value="Люксембург">Люксембург</option>
+                                <option value="Париж">Париж (Франція)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Дата виїзду</label>
+                            <input type="date" class="form-control" id="departDate" required>
+                        </div>
+                        <div class="form-group" id="returnDateGroup" style="display: none;">
+                            <label>Дата повернення</label>
+                            <input type="date" class="form-control" id="returnDate">
+                        </div>
+                        <div class="form-group">
+                            <label>Пасажири</label>
+                            <select class="form-control" id="passengerCount">
+                                <option value="1">1 пасажир</option>
+                                <option value="2">2 пасажири</option>
+                                <option value="3">3 пасажири</option>
+                                <option value="4">4 пасажири</option>
+                                <option value="5">5 пасажирів</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="hasChild"> Дитина до 14 років
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="isRoundTrip"> Зворотна поїздка
+                        </label>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;"><i class="fa-solid fa-magnifying-glass"></i> Знайти рейс</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section id="routes">
+        <div class="container">
+            <h2 class="section-title">Доступні рейси</h2>
+            <p class="section-subtitle">Оберіть потрібний маршрут та забронюйте зручне місце в автобусі</p>
+            
+            <div class="routes-grid" id="routesList">
+                </div>
+        </div>
+    </section>
+
+    <section id="parcels" style="background-color: var(--bg-card);">
+        <div class="container">
+            <h2 class="section-title">Передача посилок</h2>
+            <p class="section-subtitle">Швидка та надійна доставка багажу й документів за маршрутом Коломия — Європа</p>
+
+            <div class="parcel-card">
+                <form id="parcelForm" onsubmit="handleParcelSubmit(event)">
+                    <div class="search-grid">
+                        <div class="form-group">
+                            <label>ПІБ Відправника</label>
+                            <input type="text" class="form-control" placeholder="Іван Іванов" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Телефон</label>
+                            <input type="tel" class="form-control" placeholder="+380..." required>
+                        </div>
+                        <div class="form-group">
+                            <label>Місто відправлення</label>
+                            <input type="text" class="form-control" value="Коломия" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Місто отримання</label>
+                            <input type="text" class="form-control" placeholder="напр. Париж / Варшава" required>
+                        </div>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label>Опис посилки (вага, тип)</label>
+                            <textarea class="form-control" rows="3" placeholder="Сумка 10кг, документи..."></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%; margin-top: 15px;">
+                        <i class="fa-solid fa-paper-plane"></i> Замовити доставку
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <div class="bus-modal" id="busModal">
+        <div class="bus-modal-content">
+            <span class="close-modal" onclick="closeBusModal()">&times;</span>
+            <h3 style="font-size: 22px; margin-bottom: 5px;" id="modalRouteTitle">Коломия → Париж</h3>
+            <p style="color: var(--text-gray); font-size: 14px;" id="modalRouteSubtitle">Оберіть місця на інтерактивній схемі</p>
+            
+            <div class="bus-layout-container">
+                <div class="bus-schema">
+                    <div class="driver-zone">
+                        <i class="fa-solid fa-steering-wheel" style="font-size: 24px;" title="Кермо водія"></i>
+                        <span style="font-size: 12px; margin-left: 8px;">Водій</span>
+                    </div>
+                    <div class="seats-grid" id="seatsGrid">
+                        </div>
+                    <div class="legend">
+                        <div class="legend-item"><div class="legend-box" style="background:var(--status-free)"></div> Вільне</div>
+                        <div class="legend-item"><div class="legend-box" style="background:var(--status-selected)"></div> Ваше</div>
+                        <div class="legend-item"><div class="legend-box" style="background:var(--status-booked)"></div> Заброньовано</div>
+                    </div>
+                </div>
+
+                <div class="booking-details">
+                    <h4 style="margin-bottom: 15px;">Деталі бронювання</h4>
+                    <p style="font-size: 14px; margin-bottom: 8px;">Обрані місця: <strong id="selectedSeatsText" style="color: var(--accent-red);">-</strong></p>
+                    <p style="font-size: 14px; margin-bottom: 15px;">Загальна вартість: <strong id="totalPriceText" style="color: #81c784; font-size: 18px;">0 грн</strong></p>
+                    
+                    <form id="passengerDataForm" onsubmit="confirmBooking(event)">
+                        <div class="passenger-form" id="passengerFields">
+                            </div>
+                        <button type="submit" class="btn" style="width: 100%; margin-top: 20px;">
+                             Підтвердити бронювання
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-btn-float" onclick="toggleAdminPanel()">
+        <i class="fa-solid fa-lock"></i> Адмін панель
+    </div>
+
+    <footer id="contacts">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="#" class="logo" style="margin-bottom: 15px; display: inline-flex;">
+                        <i class="fa-solid fa-bus"></i> BIG-BUS <span>Travel</span>
+                    </a>
+                    <p style="font-size: 14px;">Подорожуйте з комфортом. Щоденні пасажирські та вантажні перевезення по всій Європі.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Напрямки</h4>
+                    <p style="font-size: 14px; line-height: 2;">
+                        Коломия — Польща<br>
+                        Коломия — Німеччина<br>
+                        Коломия — Люксембург<br>
+                        Коломия — Париж
+                    </p>
+                </div>
+                <div class="footer-col">
+                    <h4>Контакти</h4>
+                    <p style="font-size: 14px; line-height: 2;">
+                        <i class="fa-solid fa-phone" style="color:var(--accent-red)"></i> +380966419819<br>
+                        <i class="fa-solid fa-location-dot" style="color:var(--accent-red)"></i> Україна, м. Коломия
+                    </p>
+                    <a href="https://www.tiktok.com/@vikonskii_bus?_r=1&_t=ZS-97RkFipaQks" target="_blank" class="social-link-tiktok">
+                        <i class="fa-brands fa-tiktok"></i> Ми в TikTok
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2026 BIG-BUS Travel. Усі права захищено.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- DATA STORE (Simulated Database) ---
+        const totalBusSeats = 32;
+        let routesData = [
+            { id: 1, from: "Коломия", to: "Париж", date: "2026-08-15", time: "18:00", price: 3500, bookedSeats: [1, 2, 5, 6, 12, 14, 15, 18, 20, 21, 22, 25, 26, 27, 28, 29] }, // >40%
+            { id: 2, from: "Коломия", to: "Польща", date: "2026-08-16", time: "09:00", price: 1800, bookedSeats: [3, 4] },
+            { id: 3, from: "Коломия", to: "Німеччина", date: "2026-08-16", time: "12:00", price: 2800, bookedSeats: Array.from({length: 30}, (_, i) => i + 1) }, // Almost full (2 left)
+            { id: 4, from: "Коломия", to: "Люксембург", date: "2026-08-17", time: "15:00", price: 3200, bookedSeats: Array.from({length: 32}, (_, i) => i + 1) } // Sold out
+        ];
+
+        let activeRoute = null;
+        let selectedSeats = [];
+
+        // Dynamic Elements Initialization
+        document.addEventListener("DOMContentLoaded", () => {
+            // Default Date Setup
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('departDate').value = today;
+            
+            renderRoutes(routesData);
+
+            // Handle Round-trip checkbox toggle
+            document.getElementById('isRoundTrip').addEventListener('change', (e) => {
+                document.getElementById('returnDateGroup').style.display = e.target.checked ? 'flex' : 'none';
+            });
+
+            // Mobile menu toggle
+            document.getElementById('hamburger').addEventListener('click', () => {
+                document.getElementById('navMenu').classList.toggle('active');
+            });
+        });
+
+        // --- CALCULATE SEAT STATUS ---
+        function getSeatStatus(route) {
+            const bookedCount = route.bookedSeats.length;
+            const freeCount = totalBusSeats - bookedCount;
+            const percentageBooked = (bookedCount / totalBusSeats) * 100;
+
+            if (freeCount === 0) {
+                return { text: "РОЗПРОДАНО", badgeClass: "badge-red", freeCount };
+            } else if (freeCount <= 3) {
+                return { text: `ЗАЛИШИЛОСЯ ${freeCount} МІСЦЯ`, badgeClass: "badge-red", freeCount };
+            } else if (percentageBooked >= 40) {
+                return { text: "МАЙЖЕ ВСІ КВИТКИ РОЗПРОДАНІ", badgeClass: "badge-orange", freeCount };
+            } else {
+                return { text: `ВІЛЬНО ${freeCount} МІСЦЬ`, badgeClass: "badge-green", freeCount };
+            }
+        }
+
+        // --- RENDER ROUTES ---
+        function renderRoutes(routes) {
+            const listContainer = document.getElementById('routesList');
+            listContainer.innerHTML = "";
+
+            if (routes.length === 0) {
+                listContainer.innerHTML = "<p style='text-align:center;'>За вашим запитом рейсів не знайдено.</p>";
+                return;
+            }
+
+            routes.forEach(route => {
+                const status = getSeatStatus(route);
+                const isSoldOut = status.freeCount === 0;
+
+                const cardHtml = `
+                    <div class="route-card">
+                        <div class="route-info">
+                            <div>
+                                <div class="route-cities">${route.from} → ${route.to}</div>
+                                <div class="route-time"><i class="fa-regular fa-clock"></i> ${route.date} | ${route.time}</div>
+                            </div>
+                            <span class="route-badge ${status.badgeClass}">${status.text}</span>
+                        </div>
+                        <div class="route-price">
+                            <div class="price-val">${route.price} грн</div>
+                            <button class="btn" style="margin-top:10px;" ${isSoldOut ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''} onclick="openSeatPicker(${route.id})">
+                                ${isSoldOut ? 'Немає місць' : 'Обрати місця'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+                listContainer.insertAdjacentHTML('beforeend', cardHtml);
+            });
+        }
+
+        // --- FILTER SEARCH ---
+        document.getElementById('searchForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const to = document.getElementById('toCity').value;
+            
+            let filtered = routesData;
+            if (to !== "всі") {
+                filtered = routesData.filter(r => r.to.toLowerCase() === to.toLowerCase());
+            }
+
+            renderRoutes(filtered);
+            document.getElementById('routes').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // --- BUS SEAT PICKER LOGIC ---
+        function openSeatPicker(routeId) {
+            activeRoute = routesData.find(r => r.id === routeId);
+            selectedSeats = [];
+            
+            document.getElementById('modalRouteTitle').innerText = `${activeRoute.from} → ${activeRoute.to}`;
+            document.getElementById('modalRouteSubtitle').innerText = `Дата: ${activeRoute.date} | Час: ${activeRoute.time}`;
+            
+            renderSeatGrid();
+            updateBookingSummary();
+
+            document.getElementById('busModal').style.display = 'block';
+        }
+
+        function closeBusModal() {
+            document.getElementById('busModal').style.display = 'none';
+        }
+
+        function renderSeatGrid() {
+            const grid = document.getElementById('seatsGrid');
+            grid.innerHTML = '';
+
+            for (let i = 1; i <= totalBusSeats; i++) {
+                const isBooked = activeRoute.bookedSeats.includes(i);
+                const isSelected = selectedSeats.includes(i);
+                
+                let seatClass = 'free';
+                if (isBooked) seatClass = 'booked';
+                else if (isSelected) seatClass = 'selected';
+
+                const seatElem = document.createElement('div');
+                seatElem.className = `seat ${seatClass}`;
+                seatElem.innerText = i;
+                
+                if (!isBooked) {
+                    seatElem.onclick = () => toggleSeatSelection(i);
+                }
+
+                grid.appendChild(seatElem);
+            }
+        }
+
+        function toggleSeatSelection(seatNum) {
+            const maxAllowed = parseInt(document.getElementById('passengerCount').value);
+
+            if (selectedSeats.includes(seatNum)) {
+                selectedSeats = selectedSeats.filter(s => s !== seatNum);
+            } else {
+                if (selectedSeats.length >= maxAllowed) {
+                    alert(`Ви обрали кількість пасажирів: ${maxAllowed}. Неможливо обрати більше місць.`);
+                    return;
+                }
+                selectedSeats.push(seatNum);
+            }
+
+            renderSeatGrid();
+            updateBookingSummary();
+        }
+
+        function updateBookingSummary() {
+            document.getElementById('selectedSeatsText').innerText = selectedSeats.length > 0 ? selectedSeats.join(', ') : '-';
+            const totalPrice = selectedSeats.length * activeRoute.price;
+            document.getElementById('totalPriceText').innerText = `${totalPrice} грн`;
+
+            // Update Passenger Inputs
+            const formContainer = document.getElementById('passengerFields');
+            formContainer.innerHTML = '';
+
+            selectedSeats.forEach((seat, idx) => {
+                const fieldHtml = `
+                    <div style="border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 8px;">
+                        <label style="font-size: 11px; color: var(--text-gray);">Пасажир ${idx + 1} (Місце №${seat})</label>
+                        <input type="text" class="form-control" placeholder="Ім'я та Прізвище" required style="margin-top:4px;">
+                    </div>
+                `;
+                formContainer.insertAdjacentHTML('beforeend', fieldHtml);
+            });
+
+            if (selectedSeats.length > 0) {
+                const contactHtml = `
+                    <div class="form-group" style="margin-top:10px;">
+                        <label>Номер телефону</label>
+                        <input type="tel" class="form-control" placeholder="+380..." required>
+                    </div>
+                `;
+                formContainer.insertAdjacentHTML('beforeend', contactHtml);
+            }
+        }
+
+        function confirmBooking(e) {
+            e.preventDefault();
+            if (selectedSeats.length === 0) {
+                alert("Будь ласка, оберіть хоча б одне місце!");
+                return;
+            }
+
+            // Simulate database reservation & save
+            activeRoute.bookedSeats.push(...selectedSeats);
+            
+            alert(`Дякуємо! Місця (${selectedSeats.join(', ')}) успішно заброньовані. Менеджер зв'яжеться з вами за вказаним номером.`);
+            
+            closeBusModal();
+            renderRoutes(routesData); // Re-render updating seats/badges dynamically
+        }
+
+        function handleParcelSubmit(e) {
+            e.preventDefault();
+            alert("Заявку на передачу успішно відправлено! Наш водій/менеджер зателефонує вам найближчим часом.");
+            e.target.reset();
+        }
+
+        // --- SIMULATED ADMIN PANEL ---
+        function toggleAdminPanel() {
+            const pass = prompt("Введіть пароль адміністратора (за замовчуванням: admin):");
+            if (pass === "admin") {
+                const action = confirm("Адмін Панель:\nНатисніть 'ОК' щоб скинути всі бронювання, або 'Скасувати' для виходу.");
+                if (action) {
+                    routesData.forEach(r => r.bookedSeats = []);
+                    renderRoutes(routesData);
+                    alert("Всі місця успішно розброньовані!");
+                }
+            } else if (pass !== null) {
+                alert("Невірний пароль!");
+            }
+        }
+    </script>
+</body>
+</html>
